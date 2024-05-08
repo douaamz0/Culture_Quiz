@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "345378312644",
+    "project_id": "culturequizz-c2000",
+    "storage_bucket": "culturequizz-c2000.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345378312644:android:ac3a9697510874ff025491",
+        "android_client_info": {
+          "package_name": "com.example.culture_quizz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCooBaUB6FGfTVPDcbEIkQ81m0e-OtWO24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

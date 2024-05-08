@@ -16,6 +16,9 @@
             android:name=".Quiz5"
             android:exported="false" />
         <activity
+            android:name=".Question"
+            android:exported="false" />
+        <activity
             android:name=".Quiz4"
             android:exported="false" />
         <activity
@@ -23,9 +26,6 @@
             android:exported="false" />
         <activity
             android:name=".register"
-            android:exported="false" />
-        <activity
-            android:name=".Authentification"
             android:exported="false" />
         <activity
             android:name=".Quiz3"
@@ -36,6 +36,10 @@
         <activity
             android:name=".Quiz1"
             android:exported="false" />
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

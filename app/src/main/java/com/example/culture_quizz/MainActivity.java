@@ -8,50 +8,65 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText email,password;
+    EditText email, password;
     Button sign;
     TextView register;
+    FirebaseAuth monAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        email=findViewById(R.id.editTextTextEmailAddress);
-        password=findViewById(R.id.editTextTextPassword);
-        sign=findViewById(R.id.button);
-        register=findViewById(R.id.register);
+        monAuth = FirebaseAuth.getInstance();
+
+        email = findViewById(R.id.editTextTextEmailAddress);
+        password = findViewById(R.id.editTextTextPassword);
+        sign = findViewById(R.id.button);
+        register = findViewById(R.id.register);
+
         sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(email.getText().toString().equals("Douaa")
-                        && password.getText().toString().equals("azerty")){
+                String userEmail = email.getText().toString();
+                String userPassword = password.getText().toString();
 
-                    Intent i1=new Intent(MainActivity.this, Quiz1.class);
-                    startActivity(i1);
-            }else{
-                    //Toast affiche une le msg sous forme d'alert
-                    Toast.makeText(getApplicationContext(),"le login ou le password sont incorrects",
-                            Toast.LENGTH_SHORT).show();
+                if (userEmail.isEmpty() || userPassword.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-        }
 
-        });
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i2=new Intent(getApplicationContext(),com.example.culture_quizz.register.class);
-                startActivity(i2);
+                monAuth.signInWithEmailAndPassword(userEmail, userPassword)
+                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = monAuth.getCurrentUser();
+                                    Intent i1 = new Intent(MainActivity.this, Quiz1.class);
+                                    startActivity(i1);
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Échec de la connexion : " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
 
-
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i2 = new Intent(getApplicationContext(), register.class);
+                startActivity(i2);
+            }
+        });
     }
 }

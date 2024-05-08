@@ -1,24 +1,43 @@
 package com.example.culture_quizz;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.culture_quizz.MainActivity;
+import com.example.culture_quizz.R;
 
 public class Score extends AppCompatActivity {
+
+    TextView tvscore;
+    Button btry, blogout;
+    int score;
+    int totalQuizzes = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_score);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        tvscore = findViewById(R.id.textViewPercentage);
+        blogout = findViewById(R.id.buttonLogout);
+
+        Intent intent = getIntent();
+        score = intent.getIntExtra("score", 0);
+
+        int progress = (score * 100) / totalQuizzes;
+
+        // Définir le texte du TextView avec le score
+        tvscore.setText("Score: " + progress +"%");
+
+        blogout.setOnClickListener(view -> {
+            Intent logoutIntent = new Intent(Score.this, MainActivity.class);
+            startActivity(logoutIntent);
+            finish();
         });
     }
+
 }

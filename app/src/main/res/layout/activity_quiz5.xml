@@ -10,6 +10,16 @@
     android:background="@color/Pink">
 
     <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="30"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -26,7 +36,7 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        app:srcCompat="@drawable/quiz5" />
+        app:srcCompat="@drawable/quiz4" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,11 +44,12 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/question5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:text="Quel est le plus haut sommet du monde ?"
+
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginLeft="20dp"
@@ -54,19 +65,22 @@
                 android:id="@+id/option1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mont Blanc" />
+
+                 />
 
             <RadioButton
                 android:id="@+id/option2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mont Everest" />
+
+                 />
 
             <RadioButton
                 android:id="@+id/option3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mont Kilimandjaro" />
+
+                />
 
 
         </RadioGroup>
