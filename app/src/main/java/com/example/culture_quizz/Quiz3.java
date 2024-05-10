@@ -92,6 +92,9 @@ public class Quiz3 extends AppCompatActivity {
                 if (rg.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(getApplicationContext(), "Veuillez choisir une réponse", Toast.LENGTH_SHORT).show();
                 } else {
+                    if(countDownTimer != null){
+                        countDownTimer.cancel();
+                    }
                     int selectedRadioButtonId = rg.getCheckedRadioButtonId();
                     RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
                     String selectedAnswer = selectedRadioButton.getText().toString();
@@ -119,7 +122,10 @@ public class Quiz3 extends AppCompatActivity {
 
             public void onFinish() {
                 // If time's up, go to the next question without incrementing score
-                goToNextQuestion();
+
+                if(!isFinishing()){
+                    goToNextQuestion();
+                }
             }
         }.start();
     }
@@ -128,5 +134,12 @@ public class Quiz3 extends AppCompatActivity {
         nextQuizIntent.putExtra("score", score);
         startActivity(nextQuizIntent);
         finish();
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(countDownTimer !=null){
+            countDownTimer.cancel();
+        }
     }
 }

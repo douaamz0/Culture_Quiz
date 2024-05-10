@@ -27,8 +27,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Instancier la variable MyAuthentification
         monAuth = FirebaseAuth.getInstance();
 
+        //récupération à partir du fichier xml
         email = findViewById(R.id.editTextTextEmailAddress);
         password = findViewById(R.id.editTextTextPassword);
         sign = findViewById(R.id.button);
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    FirebaseUser user = monAuth.getCurrentUser();
                                     Intent i1 = new Intent(MainActivity.this, Quiz1.class);
                                     startActivity(i1);
                                 } else {

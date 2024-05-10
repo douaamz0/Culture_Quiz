@@ -26,7 +26,6 @@ public class Quiz1 extends AppCompatActivity {
 
     Button next;
     RadioGroup rg;
-    RadioButton rb;
     int score;
     TextView tvTimer;
     CountDownTimer countDownTimer;
@@ -43,14 +42,20 @@ public class Quiz1 extends AppCompatActivity {
         // Start the countdown timer
         startTimer();
 
+        // récupèrer l'Intent qui a été utilisé pour démarrer l'activité actuelle
         Intent intent = getIntent();
+        //recupère la valeur du score passée à l'intent
         score = intent.getIntExtra("score", 0);
 
+        //récupérer une référence à un nœud spécifique dans la base de données Firebase en utilisant son URL.
         DatabaseReference questionRef= FirebaseDatabase.getInstance().getReferenceFromUrl("https://culturequizz-c2000-default-rtdb.firebaseio.com/questions/question1");
         questionRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //DataSnapshot contient les données actuelles de la question dans la base de données Firebase.
                 if (dataSnapshot.exists()) {
+                    //récupération des éléments de la question
+
                     String question = dataSnapshot.child("question").getValue(String.class);
                     Log.d("QuestionText", "Question Text: " + question);
 
@@ -59,9 +64,11 @@ public class Quiz1 extends AppCompatActivity {
                     String option3 = dataSnapshot.child("option3").getValue(String.class);
                     String correctAnswer = dataSnapshot.child("correctAnswer").getValue(String.class);
 
+                    //Afficher les question récupérées en utilisant setText
                     TextView questionTextView = findViewById(R.id.question1);
                     questionTextView.setText(question);
 
+                    //collection qui contient les options
                     ArrayList<String> optionsList = new ArrayList<>();
                     optionsList.add(option1);
                     optionsList.add(option2);
@@ -69,13 +76,14 @@ public class Quiz1 extends AppCompatActivity {
 
                     rg.removeAllViews();
 
+                    //Afficher les options dans les radios button
                     for (int i = 0; i < optionsList.size(); i++) {
                         RadioButton radioButton = new RadioButton(Quiz1.this);
                         radioButton.setText(optionsList.get(i));
                         rg.addView(radioButton);
                     }
 
-                    // Tag the correct answer for later validation
+                    // Tag pour stocker des données supplémentaires
                     rg.setTag(correctAnswer);
                 }
             }
@@ -92,6 +100,9 @@ public class Quiz1 extends AppCompatActivity {
                 if (rg.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(getApplicationContext(), "Veuillez choisir une réponse", Toast.LENGTH_SHORT).show();
                 } else {
+                    if(countDownTimer != null){
+                        countDownTimer.cancel();
+                    }
                     int selectedRadioButtonId = rg.getCheckedRadioButtonId();
                     RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
                     String selectedAnswer = selectedRadioButton.getText().toString();
@@ -105,6 +116,7 @@ public class Quiz1 extends AppCompatActivity {
                 }
             }
 
+            //comparer selected answer et correct answer
             private boolean isAnswerCorrect(String selectedAnswer, String correctAnswer) {
                 return selectedAnswer.equals(correctAnswer);
             }
@@ -119,7 +131,10 @@ public class Quiz1 extends AppCompatActivity {
 
             public void onFinish() {
                 // If time's up, go to the next question without incrementing score
-                goToNextQuestion();
+
+                if(!isFinishing()){
+                    goToNextQuestion();
+                }
             }
         }.start();
     }
@@ -128,5 +143,13 @@ public class Quiz1 extends AppCompatActivity {
         nextQuizIntent.putExtra("score", score);
         startActivity(nextQuizIntent);
         finish();
+    }
+    //annuler le compte à rebours
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(countDownTimer !=null){
+            countDownTimer.cancel();
+        }
     }
 }
